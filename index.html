@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1220" />
+  <title>타워 러쉬 — 여기서 바로 시작</title>
+  <meta name="description" content="지금 바로 시작. 코드 TOWER5 첫 입금 500% 보너스." />
+
+  <meta property="og:title" content="타워 러쉬 — 여기서 바로 시작" />
+  <meta property="og:description" content="코드 TOWER5 · 첫 입금 500% 보너스" />
+  <meta property="og:type" content="website" />
+
+  <style>
+    :root{
+      /* Tower Rush-ish palette */
+      --bg:#0b1220;
+      --bg2:#0e1830;
+      --panel: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+
+      --tr-yellow:#F6B318;
+      --tr-yellow2:#FFCE4A;
+      --tr-blue:#2AA8FF;
+      --tr-blue2:#46D3FF;
+      --tr-ink:#0b0f14;
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --r: 22px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "BenzinBold";
+      color: var(--text);
+      background:
+        radial-gradient(900px 520px at 18% 10%, rgba(246,179,24,.22), transparent 60%),
+        radial-gradient(900px 520px at 82% 20%, rgba(42,168,255,.18), transparent 58%),
+        radial-gradient(900px 700px at 50% 95%, rgba(255,255,255,.05), transparent 65%),
+        linear-gradient(180deg, var(--bg2), var(--bg));
+      overflow-x:hidden;
+    }
+
+    /* subtle blueprint grid */
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at 50% 20%, rgba(0,0,0,.9), transparent 70%);
+      pointer-events:none;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:flex;
+      justify-content:center;
+      padding: 18px 14px 92px; /* space for sticky */
+    }
+
+    .card{
+      width:min(560px, 94vw);
+      margin-top: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border:1px solid var(--stroke);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    /* Crane / construction motif (CSS only) */
+    .card:before{
+      content:"";
+      position:absolute;
+      top:-70px; right:-90px;
+      width: 320px; height: 220px;
+      background:
+        linear-gradient(90deg, rgba(255,206,74,.55), rgba(246,179,24,.10));
+      transform: rotate(12deg);
+      border-radius: 24px;
+      filter: blur(.2px);
+      opacity:.85;
+    }
+    .card:after{
+      content:"";
+      position:absolute;
+      top:10px; right:18px;
+      width: 150px; height: 150px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(70,211,255,.40), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(246,179,24,.25), transparent 60%);
+      opacity:.85;
+      pointer-events:none;
+    }
+
+    .inner{
+      padding: 18px 16px 16px;
+      position:relative;
+      z-index:1;
+    }
+
+    .topRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.20);
+      font-size: 12px;
+      color: rgba(255,255,255,.82);
+      font-weight: 800;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .tag .dot{
+      width:9px; height:9px; border-radius:999px;
+      background: linear-gradient(90deg, var(--tr-yellow), var(--tr-blue));
+      box-shadow: 0 0 0 6px rgba(42,168,255,.10);
+    }
+
+    .timerMini{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size: 12px;
+      color: rgba(255,255,255,.70);
+      padding: 8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.16);
+      white-space:nowrap;
+    }
+    .timerMini b{
+      color: rgba(255,255,255,.92);
+      font-weight: 900;
+      letter-spacing:.2px;
+    }
+
+    .hero{
+      margin-top: 14px;
+    }
+
+    .title{
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing:-.6px;
+      font-weight: 1000;
+    }
+
+    /* Tower Rush-style chunky title */
+    .title .tr{
+      display:inline-block;
+      padding: 2px 0;
+      text-shadow:
+        -2px -2px 0 var(--tr-ink),
+         2px -2px 0 var(--tr-ink),
+        -2px  2px 0 var(--tr-ink),
+         2px  2px 0 var(--tr-ink),
+         0px  4px 0 rgba(0,0,0,.35);
+    }
+    .title .tr.yellow{ color: var(--tr-yellow); }
+    .title .tr.blue{ color: var(--tr-blue); }
+
+    .sub{
+      margin:0 0 14px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    /* 3-step strip */
+    .stepsStrip{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:10px;
+      margin: 8px 0 14px;
+    }
+    .step{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.14);
+      border-radius: 16px;
+      padding: 10px 10px;
+      min-height: 62px;
+    }
+    .step .k{
+      font-size: 11px;
+      color: rgba(255,255,255,.64);
+      margin-bottom: 6px;
+      font-weight: 800;
+      letter-spacing:.2px;
+    }
+    .step .v{
+      font-size: 13px;
+      font-weight: 900;
+      color: rgba(255,255,255,.90);
+      line-height:1.2;
+    }
+    .hiY{ color: var(--tr-yellow2); }
+    .hiB{ color: var(--tr-blue2); }
+
+    /* Promo box (very compact) */
+    .promo{
+      margin: 10px 0 12px;
+      padding: 12px 12px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        linear-gradient(180deg, rgba(246,179,24,.14), rgba(42,168,255,.10));
+      box-shadow:
+        0 14px 40px rgba(246,179,24,.08),
+        0 14px 40px rgba(42,168,255,.08);
+    }
+    .promoTop{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .promoTitle{
+      font-weight: 1000;
+      font-size: 14px;
+      letter-spacing:.2px;
+    }
+    .promoTitle small{
+      display:block;
+      margin-top: 4px;
+      font-size: 12px;
+      color: rgba(255,255,255,.72);
+      font-weight: 800;
+    }
+    .codeRow{
+      margin-top: 10px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .codePill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      font-size: 14px;
+      font-weight: 1000;
+      letter-spacing: .8px;
+    }
+    .copyBtn{
+      border:0;
+      cursor:pointer;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-weight: 1000;
+      font-size: 13px;
+      color: #0b0f14;
+      background: linear-gradient(90deg, var(--tr-yellow), var(--tr-blue));
+      box-shadow: 0 12px 28px rgba(246,179,24,.14);
+      -webkit-tap-highlight-color: transparent;
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .copyBtn:active{ transform: translateY(1px); filter: brightness(.98); }
+    .toast{
+      margin-top: 8px;
+      font-size: 12px;
+      color: rgba(255,255,255,.66);
+      line-height: 1.35;
+    }
+
+    /* Guide accordion */
+    details.guide{
+      margin: 10px 0 14px;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      background: rgba(0,0,0,.14);
+      overflow:hidden;
+    }
+    details.guide summary{
+      list-style:none;
+      cursor:pointer;
+      padding: 12px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-size: 13px;
+      color: rgba(255,255,255,.86);
+      font-weight: 1000;
+      -webkit-tap-highlight-color: transparent;
+    }
+    details.guide summary::-webkit-details-marker{display:none}
+    .chev{ opacity:.7; font-size:12px; }
+    .guideBody{
+      padding: 0 12px 12px;
+      color: rgba(255,255,255,.72);
+      font-size: 12px;
+      line-height: 1.38;
+    }
+    .steps{
+      margin: 10px 0 10px;
+      padding-left: 18px;
+    }
+    .steps li{ margin: 6px 0; }
+    .shots{
+      display:flex;
+      gap:10px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      padding: 2px 0 6px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .shot{
+      flex: 0 0 78%;
+      scroll-snap-align:start;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      background: rgba(255,255,255,.04);
+    }
+    .shot img{ width:100%; height:auto; display:block; }
+    .caption{
+      padding: 8px 10px;
+      font-size: 11px;
+      color: rgba(255,255,255,.62);
+    }
+
+    /* Primary CTA */
+    .cta{
+      display:block;
+      width:100%;
+      border:0;
+      cursor:pointer;
+      text-decoration:none;
+      text-align:center;
+      padding: 16px 16px;
+      border-radius: 18px;
+      font-size: 18px;
+      font-weight: 1000;
+      letter-spacing: .2px;
+      color: #0b0f14;
+      background: linear-gradient(90deg, var(--tr-yellow), var(--tr-blue));
+      box-shadow: 0 16px 40px rgba(246,179,24,.18), 0 16px 40px rgba(42,168,255,.16);
+      transition: transform .12s ease, filter .12s ease;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .cta:active{ transform: translateY(1px) scale(.995); filter: brightness(.98); }
+
+    .help{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(255,255,255,.60);
+      line-height: 1.35;
+      text-align:center;
+    }
+
+    .fine{
+      margin-top: 12px;
+      font-size: 11px;
+      color: rgba(255,255,255,.46);
+      text-align:center;
+      line-height: 1.35;
+    }
+
+    /* Sticky CTA */
+    .sticky{
+      position:fixed;
+      left:0; right:0;
+      bottom:0;
+      padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, rgba(11,18,32,0), rgba(11,18,32,.78), rgba(11,18,32,.92));
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display:flex;
+      justify-content:center;
+      z-index:999;
+    }
+    .stickyInner{ width:min(560px, 94vw); }
+    .stickyBtn{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding: 16px 16px;
+      border-radius: 18px;
+      font-size: 18px;
+      font-weight: 1000;
+      letter-spacing: .2px;
+      border:0;
+      cursor:pointer;
+      color:#0b0f14;
+      background: linear-gradient(90deg, var(--tr-yellow), var(--tr-blue));
+      box-shadow: 0 16px 40px rgba(246,179,24,.18), 0 16px 40px rgba(42,168,255,.16);
+      -webkit-tap-highlight-color: transparent;
+      text-decoration:none;
+      text-align:center;
+    }
+    .stickyBtn:active{ transform: translateY(1px) scale(.995); filter: brightness(.98); }
+
+    /* mobile: 3 steps stack if narrow */
+    @media (max-width: 380px){
+      .stepsStrip{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="card" role="region" aria-label="Tower Rush landing">
+      <div class="inner">
+
+        <div class="topRow">
+          <div class="tag"><span class="dot"></span> 이번 달 혜택 진행 중</div>
+          <div class="timerMini">⏳ 종료까지 <b id="countdownMini">--:--:--</b></div>
+        </div>
+
+        <div class="hero">
+          <h1 class="title">
+            <span class="tr yellow">타워</span> <span class="tr blue">러쉬</span><br>
+            여기서 <span class="hiY">바로</span> 시작
+          </h1>
+          <p class="sub">
+            헷갈릴 필요 없음 👇<br>
+            <b>한 번 누르고</b> → <b>가입</b> → <b>코드 입력</b> 끝.
+          </p>
+        </div>
+
+        <div class="stepsStrip" aria-label="3-step">
+          <div class="step">
+            <div class="k">STEP 1</div>
+            <div class="v">아래 <span class="hiY">플레이</span> 누르기</div>
+          </div>
+          <div class="step">
+            <div class="k">STEP 2</div>
+            <div class="v"><span class="hiB">가입</span> 30초</div>
+          </div>
+          <div class="step">
+            <div class="k">STEP 3</div>
+            <div class="v">코드 <span class="hiY">TOWER5</span> 입력</div>
+          </div>
+        </div>
+
+        <div class="promo" aria-label="Promo code">
+          <div class="promoTop">
+            <div class="promoTitle">
+              🎁 첫 입금 <b>500%</b> 보너스
+              <small>프로모션 코드 입력 시 적용됩니다</small>
+            </div>
+          </div>
+
+          <div class="codeRow">
+            <div class="codePill">🔒 CODE: <span id="promoCode">TOWER5</span></div>
+            <button class="copyBtn" id="copyBtn" type="button">코드 복사</button>
+          </div>
+
+          <div class="toast" id="toast">✅ 복사 → 가입할 때 “프로모션 코드”에 붙여넣기</div>
+        </div>
+
+        <details class="guide">
+          <summary>
+            📌 30초 가입 방법 (사진 포함)
+            <span class="chev">▼</span>
+          </summary>
+          <div class="guideBody">
+            <ol class="steps">
+              <li><b>플레이</b> 누르고 사이트로 이동</li>
+              <li><b>가입</b> → 전화번호/이메일 입력</li>
+              <li><b>프로모션 코드</b>에 <b>TOWER5</b> 입력</li>
+              <li><b>등록</b> 완료 → 바로 플레이</li>
+            </ol>
+
+            <div class="shots" aria-label="How to register screenshots">
+              <div class="shot">
+                <img loading="lazy" src="./towerrush1.jpg" alt="가입 방법 안내 1">
+                <div class="caption">① ‘프로모션 코드’ 위치</div>
+              </div>
+              <div class="shot">
+                <img loading="lazy" src="./towerrush2.jpg" alt="가입 방법 안내 2">
+                <div class="caption">② 코드 입력 후 보너스 적용</div>
+              </div>
+            </div>
+
+            <div style="margin-top:6px;opacity:.85;">
+              💡 위 사진 그대로만 따라 하면 됩니다.
+            </div>
+          </div>
+        </details>
+
+        <a class="cta" id="playBtn" href="#" rel="noopener">
+          ▶️ 지금 플레이하기
+        </a>
+
+        <div class="help">
+          인스타에서 안 열리면: 오른쪽 위 <b>⋯</b> → <b>브라우저에서 열기</b>
+        </div>
+
+        <div class="fine">
+          본 페이지는 게임 안내용입니다. 조건은 사이트에서 확인하세요.
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div class="sticky" aria-label="Sticky button">
+    <div class="stickyInner">
+      <a class="stickyBtn" id="stickyBtn" href="#" rel="noopener">▶️ 바로 시작 (원탭)</a>
+    </div>
+  </div>
+
+  <script>
+    // =========================
+    // 1) YOUR TARGET LINK HERE
+    // =========================
+    const TARGET_URL = "https://lkgp.cc/17dd24"; // <-- поменяй, если нужно
+
+    // =========================
+    // 2) KEEP QUERY PARAMS
+    // =========================
+    function buildUrl(base) {
+      const u = new URL(base);
+      const qs = new URLSearchParams(window.location.search);
+      for (const [k, v] of qs.entries()) {
+        if (!u.searchParams.has(k)) u.searchParams.set(k, v);
+      }
+      return u.toString();
+    }
+
+    const finalUrl = buildUrl(TARGET_URL);
+    document.getElementById("playBtn").href = finalUrl;
+    document.getElementById("stickyBtn").href = finalUrl;
+
+    // =========================
+    // 3) COUNTDOWN to end of month (KST)
+    // =========================
+    const countdownMini = document.getElementById("countdownMini");
+
+    function getKSTDate() {
+      return new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+    }
+
+    function getEndOfMonthKST() {
+      const now = getKSTDate();
+      const y = now.getFullYear();
+      const m = now.getMonth(); // 0-based
+      const end = new Date(new Date(`${y}-${String(m+2).padStart(2,'0')}-01T00:00:00`));
+      end.setDate(0);
+      end.setHours(23,59,59,999);
+      return end;
+    }
+
+    const endKST = getEndOfMonthKST();
+
+    function tick() {
+      const now = getKSTDate();
+      let diff = endKST - now;
+      if (diff < 0) diff = 0;
+
+      const totalSec = Math.floor(diff / 1000);
+      const h = Math.floor(totalSec / 3600);
+      const m = Math.floor((totalSec % 3600) / 60);
+      const s = totalSec % 60;
+
+      countdownMini.textContent =
+        `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    // =========================
+    // 4) COPY PROMO CODE
+    // =========================
+    const promo = document.getElementById("promoCode").textContent.trim();
+    const copyBtn = document.getElementById("copyBtn");
+    const toast = document.getElementById("toast");
+
+    async function copyCode() {
+      try {
+        await navigator.clipboard.writeText(promo);
+        toast.textContent = "✅ 복사 완료! 가입할 때 코드 칸에 붙여넣기 🔥";
+        setTimeout(() => toast.textContent = "✅ 복사 → 가입할 때 “프로모션 코드”에 붙여넣기", 2200);
+      } catch (e) {
+        const ta = document.createElement("textarea");
+        ta.value = promo;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        toast.textContent = "✅ 복사 완료! 가입할 때 코드 칸에 붙여넣기 🔥";
+        setTimeout(() => toast.textContent = "✅ 복사 → 가입할 때 “프로모션 코드”에 붙여넣기", 2200);
+      }
+    }
+
+    copyBtn.addEventListener("click", copyCode);
+
+    // reduce tap delay
+    document.getElementById("playBtn").addEventListener("touchstart", () => {}, { passive:true });
+    document.getElementById("stickyBtn").addEventListener("touchstart", () => {}, { passive:true });
+  </script>
+</body>
+</html>
